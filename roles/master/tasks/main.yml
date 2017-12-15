@@ -1,0 +1,12 @@
+- name: copy postgresql.conf
+  template: src=postgresql.conf dest=/var/lib/pgsql/10/data/postgresql.conf
+
+- name: copy pg_hba.conf
+  template: src=pg_hba.conf dest=/var/lib/pgsql/10/data/pg_hba.conf
+
+- name: restart the db server
+  service: name=postgresql-10 state=restarted
+
+- name: create extension citus
+  raw: sudo -i -u postgres psql -c "SELECT * from master_add_node('{{ item }}', 5432);"
+  with_items: "{{ groups['worker'] }}"

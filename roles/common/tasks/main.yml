@@ -1,0 +1,21 @@
+
+- name: add Citus repository for package manager
+  raw: curl https://install.citusdata.com/community/rpm.sh | sudo bash
+
+- name: install PostgreSQL with Citus extension
+  yum: name=citus71_10  state=latest
+
+- name: initialize system database
+  raw: sudo service postgresql-10 initdb || sudo /usr/pgsql-10/bin/postgresql-10-setup initdb
+
+- name: preload citus extension
+  raw: echo "shared_preload_libraries = 'citus'" | sudo tee -a /var/lib/pgsql/10/data/postgresql.conf
+
+- name: start the db server
+  service: name=postgresql-10 state=restarted
+
+- name: make it start automatically when computer does
+  raw: sudo chkconfig postgresql-10 on
+
+- name: enable citus extension
+  raw: sudo -i -u postgres psql -c "CREATE EXTENSION citus;"

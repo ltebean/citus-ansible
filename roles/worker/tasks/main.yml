@@ -1,0 +1,8 @@
+- name: copy postgresql.conf
+  template: src=postgresql.conf dest=/var/lib/pgsql/10/data/postgresql.conf
+
+- name: copy pg_hba.conf
+  template: src=pg_hba.conf dest=/var/lib/pgsql/10/data/pg_hba.conf
+
+- name: restart the db server
+  service: name=postgresql-10 state=restarted

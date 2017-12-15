@@ -1,0 +1,13 @@
+# - hosts: worker
+#   remote_user: root
+#   become: yes
+#   roles:
+#     - { role: common }
+#     - { role: worker }
+
+- hosts: master
+  remote_user: root
+  become: yes
+  roles:
+    # - { role: common }
+    - { role: master }
