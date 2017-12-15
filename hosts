@@ -5,3 +5,8 @@
 106.187.100.1
 106.187.100.2
 106.187.100.3
+
+[all:vars]
+ansible_connection=ssh
+ansible_user=root
+ansible_pass=xxx
